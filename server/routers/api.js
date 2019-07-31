@@ -7,8 +7,11 @@ const userController = require('../controllers/user');
 const crawlerController = require('./../controllers/crawler');
 
 const routers = router
-  .get('/user/getUserInfo', userController.getUserInfo)
-  .post('/user/signup', userController.signup)
+  .get('/user', userController.getUser)
+  .post('/user', userController.addUser)
+  .put('/user', userController.updateUser)
+  .delete('/user/:username', userController.deleteUser)
+
   .get('/crawler/getChinaPopulation', crawlerController.getChinaPopulation)
 
 module.exports = routers

@@ -9,17 +9,33 @@ const Schema = mongoose.Schema;
  * @type {mongoose}
  */
 const UserSchema = new Schema({
-  createTime: { type: Date, default: Date.now },
-  lastLoginTime: { type: Date, default: Date.now },
-
   username: {
     type: String,
-    trim: true,
-    unique: true,
     index: true
   },
+  email: {
+    type: String,
+    lowercase: true,
+    unique: true
+  },
+  phone: {
+    type: Number,
+    unique: true
+  },
   password: String,
-  avatar: String
+  avatar: String,
+  status: {
+    type: Number,
+    default: 0
+  },
+  createTime: {
+    type: Date,
+    default: Date.now
+  },
+  lastLoginTime: {
+    type: Date,
+    default: Date.now
+  }
 });
 
 const User = mongoose.model('User', UserSchema);
