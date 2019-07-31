@@ -9,52 +9,18 @@ const Schema = mongoose.Schema;
  * @type {mongoose}
  */
 const UserSchema = new Schema({
-  phone: {
+  createTime: { type: Date, default: Date.now },
+  lastLoginTime: { type: Date, default: Date.now },
+
+  username: {
+    type: String,
+    trim: true,
     unique: true,
-    type: String
+    index: true
   },
-  accessToken: String,
-  nickname: String,
-  gender: String,
-  age: {
-    type: Number,
-    default: 0
-  },
-  avatar: {
-    type: String,
-    default: ''
-  },
-  email: {
-    type: String,
-    default: ''
-  },
-  meta: {
-    createAt: {
-      type: Date,
-      dafault: Date.now()
-    },
-    updateAt: {
-      type: Date,
-      dafault: Date.now()
-    }
-  }
+  password: String,
+  avatar: String
 });
 
-UserSchema.pre('save', function(next) {
-  if (this.isNew) {
-    this.meta.createAt = this.meta.updateAt = Date.now();
-  } else {
-    this.meta.updateAt = Date.now();
-  }
-  next();
-});
-
-/**
- * 定义模型User
- * 模型用来实现我们定义的模式，调用mongoose.model来编译Schema得到Model
- * @type {[type]}
- */
- // 参数User 数据库中的集合名称, 不存在会创建.
 const User = mongoose.model('User', UserSchema);
-
 module.exports = User;

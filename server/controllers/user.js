@@ -1,19 +1,18 @@
-// const mongoose = require('mongoose');
-// const User = mongoose.model('User');
+const User = require('../models/user');
 
-/**
- * 注册新用户
- */
-exports.signup = async (ctx, next) => {
-  const phone = ctx.request.body.phone;
+module.exports = {
+  // 注册新用户
+  async signup(ctx) {
+    const body = ctx.request.body;
+    ctx.body = body;
+  },
 
-}
-
-exports.getUserInfo = async (ctx, next) => {
-  let result = {
-    name: 'Max',
-    age: 26
-  };
-
-  ctx.body = result;
+  // 获取用户信息
+  async getUserInfo(ctx) {
+    console.log(ctx.request.query);
+    const { query } = ctx.request;
+    let us = await User.find();
+    console.log(us);
+    ctx.body = query;
+  }
 }
