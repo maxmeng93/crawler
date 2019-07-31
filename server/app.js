@@ -19,7 +19,7 @@ app.use(koaLogger());
 app.use(body());
 
 // 配置静态资源加载中间件
-app.use(koaStatic(path.join(__dirname, './static')));
+app.use(koaStatic(path.join(__dirname, './public')));
 
 // 初始化路由中间件
 app.use(routers.routes()).use(routers.allowedMethods());
