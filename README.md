@@ -1,4 +1,5 @@
 # crawler
+koa2项目
 
 ## 项目结构
 <details>
@@ -10,7 +11,7 @@
 |—— server/
 |   |—— controller/ 控制器
 |   |
-|   |—— model/ 模型
+|   |—— model/ 领域模型
 |   |
 |   |—— public/ 静态资源
 |   |
