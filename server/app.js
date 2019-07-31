@@ -5,8 +5,7 @@ const koaStatic = require('koa-static');
 const body = require('koa-body');
 const koaLogger = require('koa-logger');
 
-const config = require('./../config');
-const routers = require('./routers/index');
+const routers = require('./router/index');
 
 const app = new Koa();
 

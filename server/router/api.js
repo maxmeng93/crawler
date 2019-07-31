@@ -3,8 +3,8 @@
  */
 
 const router = require('koa-router')();
-const userController = require('../controllers/user');
-const crawlerController = require('./../controllers/crawler');
+const userController = require('../controller/user');
+const crawlerController = require('../controller/crawler');
 
 const routers = router
   .get('/user', userController.getUser)
