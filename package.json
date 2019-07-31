@@ -4,7 +4,7 @@
   "description": "一个小爬虫项目",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./server/app.js",
+    "start": "nodemon ./server/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -26,8 +26,7 @@
     "koa-logger": "^3.2.1",
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
-    "koa-views": "^6.2.0",
-    "mongodb": "^3.3.0-beta2",
+    "mongoose": "^5.6.7",
     "request": "^2.88.0",
     "request-promise": "^4.2.4"
   },
