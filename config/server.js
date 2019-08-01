@@ -5,10 +5,10 @@ module.exports = {
     port: env.Port || 3001,
 
     // mongodb address
-    database: env.Database || 'mongodb://localhost:27017/test',
+    database: 'mongodb://localhost:27017/test',
 
     // jwt encryption secret
-    jwtSecret: env.JwtSecret || 'jwtSecret',
+    jwtSecret: 'jwtSecret',
 
     // Maximize the number of groups
     maxGroupsCount: 3,

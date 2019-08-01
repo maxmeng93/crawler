@@ -7,6 +7,7 @@ const user = router
   .get('/user', userController.getUser)
   .post('/user', userController.addUser)
   .put('/user', userController.updateUser)
-  .delete('/user/:username', userController.deleteUser);
+  .delete('/user/:username', userController.deleteUser)
+  .post('/user/login', userController.login);
 
 module.exports = user;
