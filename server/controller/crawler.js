@@ -5,7 +5,7 @@ const cheerio = require("cheerio");
 
 module.exports = {
   async getChinaPopulation(ctx) {
-    const fileUrl = path.join(__dirname, "../../data", "chinaPopulation.json");
+    const fileUrl = path.join(__dirname, "../../public/data", "chinaPopulation.json");
 
     try {
       const file = await fs.readFileSync(fileUrl);

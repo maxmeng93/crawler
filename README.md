@@ -8,12 +8,12 @@ koa2项目
 <code>
 |—— config/ 配置文件
 |
+|—— public/ 静态资源
+|
 |—— server/
 |   |—— controller/ 控制器
 |   |
-|   |—— model/ 领域模型
-|   |
-|   |—— public/ 静态资源
+|   |—— model/ 模型
 |   |
 |   |—— router/ 路由
 |   |
