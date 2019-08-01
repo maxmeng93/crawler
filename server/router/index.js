@@ -1,10 +1,12 @@
 const Router = require('koa-router');
-const api = require('./api');
+const user = require('./user');
+const crawler = require('./crawler');
 
 let router = new Router({
   prefix: '/api'
 });
 
-router.use(api.routes(), api.allowedMethods());
+router.use(user.routes(), user.allowedMethods());
+router.use(crawler.routes(), crawler.allowedMethods());
 
 module.exports = router;
