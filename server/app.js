@@ -12,9 +12,9 @@ const routers = require('./router/index');
 const app = new Koa();
 
 //
-app.use(koaJwt({secret: config.jwtSecret}).unless({
-  path: [/^\/api\/user\/login/]
-}));
+// app.use(koaJwt({secret: config.jwtSecret}).unless({
+//   path: [/^\/api\/user\/login/]
+// }));
 
 // 跨域
 app.use(cors());

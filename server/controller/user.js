@@ -30,10 +30,7 @@ module.exports = {
     };
 
     const { name, password } = ctx.request.body;
-    console.log(ctx.request.body);
     let user = await User.findOne({ name, password });
-
-    console.log(user);
 
     if (!user) {
       data = Object.assign(data, {

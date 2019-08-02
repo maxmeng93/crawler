@@ -11,7 +11,7 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
   username: {
     type: String,
-    index: true
+    unique: true
   },
   email: {
     type: String,
@@ -79,6 +79,52 @@ UserSchema
     }
   });
 
+// UserSchema
+//   .path('username')
+//   .validate({
+//     isAsync: true,
+//     validator: function(v, cb) {
+//       const self = this;
+//       self.constructor.findOne({ username: v }, function(err, user) {
+//         if (user && self.id !== user.id) {
+//           cb(false);
+//         }
+//         cb(true);
+//       });
+//     },
+//     message: '这个用户名已经被使用！'
+//   });
+
+UserSchema
+  .path('username')
+  .validate({
+    validator: (v, cb) => {
+      const self = this;
+      return new Promise(function(resolve, reject) {
+        const user = self.constructor.findOne({ username: v});
+        if (user && self.id !== user.id) resolve(false);
+        resolve(true);
+      });
+    },
+    message: '这个用户名已经被使用！'
+  });
+
+// UserSchema
+//   .path('email')
+//   .validate({
+//     isAsync: true,
+//     validator: function(v, cb) {
+//       const self = this;
+//       self.constructor.findOne({ email:v }, function(err, user) {
+//         if (user && self.id !== user.id) {
+//           cb(false);
+//         }
+//         cb(true);
+//       });
+//     },
+//     message: '这个email已经被使用！'
+//   });
+
 /**
  * methods
  */
@@ -105,4 +151,5 @@ UserSchema.methods = {
 };
 
 const User = mongoose.model('User', UserSchema);
+
 module.exports = User;
