@@ -38,6 +38,10 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now
   },
+  updateTime: {
+    type: Date,
+    default: Date.now
+  },
   lastLoginTime: {
     type: Date,
     default: Date.now
@@ -149,6 +153,11 @@ UserSchema.methods = {
 	  return crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha1').toString('base64');
 	}
 };
+
+UserSchema.pre('save', (next) => {
+  UserSchema.updateTime = new Date();
+  next();
+});
 
 const User = mongoose.model('User', UserSchema);
 

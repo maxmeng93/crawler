@@ -5,6 +5,7 @@ const koaStatic = require('koa-static');
 const body = require('koa-body');
 const koaLogger = require('koa-logger');
 const koaJwt = require('koa-jwt');
+const compress = require('koa-compress');
 
 const config = require('../config/server');
 const routers = require('./router/index');
@@ -18,6 +19,9 @@ const app = new Koa();
 
 // 跨域
 app.use(cors());
+
+// gzip
+app.use(compress())
 
 // 配置控制台日志中间件
 app.use(koaLogger());
