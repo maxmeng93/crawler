@@ -1,5 +1,5 @@
-const jwt = require("jsonwebtoken");
-const User = require("../model/user");
+const jwt = require('jsonwebtoken');
+const User = require('../model/user');
 
 const config = require('../../config/server');
 
@@ -8,7 +8,7 @@ module.exports = {
   async addUser(ctx) {
     const { username, password, repassword } = ctx.request.body;
     if (!username) ctx.throw(401, '用户名不能为空');
-    if (!password)
+    if (!password) ctx.throw(401, '密码不能为空');
     if (password !== repassword) ctx.throw(401, '两次输入密码不一致');
 
     let user = await User.findOne({ username });

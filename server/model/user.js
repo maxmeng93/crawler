@@ -1,3 +1,5 @@
+const crypto = require('crypto');
+
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -14,23 +16,23 @@ const UserSchema = new Schema({
     unique: true,
     required: true
   },
-  password: String,
-  // email: {
-  //   type: String,
-  //   lowercase: true,
-  //   unique: true
-  // },
-  // phone: {
-  //   type: Number,
-  //   unique: true
-  // },
-  // hashedPassword: String,
-  // avatar: String,
-  // authorization: String,
-  // status: {
-  //   type: Number,
-  //   default: 0
-  // },
+  // password: String,
+  email: {
+    type: String,
+    lowercase: true,
+    unique: true
+  },
+  phone: {
+    type: Number,
+    unique: true
+  },
+  hashedPassword: String,
+  avatar: String,
+  authorization: String,
+  status: {
+    type: Number,
+    default: 0
+  },
   // salt: String,
   // role: {
 	// 	type : String ,
@@ -53,16 +55,16 @@ const UserSchema = new Schema({
 /**
  * virtuals
  */
-// UserSchema
-//   .virtual('password')
-//   .set(function(password) {
-//     this._password = password;
-//     this.salt = this.makeSalt();
-//     this.hashedPassword = this.encryptPassword(password);
-//   })
-//   .get(function() {
-//     return this._password;
-//   });
+UserSchema
+  .virtual('password')
+  .set(function(password) {
+    this._password = password;
+    this.salt = this.makeSalt();
+    this.hashedPassword = this.encryptPassword(password);
+  })
+  .get(function() {
+    return this._password;
+  });
 
 // UserSchema
 //   .virtual('userInfo')
@@ -85,76 +87,30 @@ const UserSchema = new Schema({
 //     }
 //   });
 
-// UserSchema
-//   .path('username')
-//   .validate({
-//     isAsync: true,
-//     validator: function(v, cb) {
-//       const self = this;
-//       self.constructor.findOne({ username: v }, function(err, user) {
-//         if (user && self.id !== user.id) {
-//           cb(false);
-//         }
-//         cb(true);
-//       });
-//     },
-//     message: '这个用户名已经被使用！'
-//   });
-
-// UserSchema
-//   .path('username')
-//   .validate({
-//     validator: (v, cb) => {
-//       const self = this;
-//       return new Promise(function(resolve, reject) {
-//         const user = self.constructor.findOne({ username: v});
-//         if (user && self.id !== user.id) resolve(false);
-//         resolve(true);
-//       });
-//     },
-//     message: '这个用户名已经被使用！'
-//   });
-
-// UserSchema
-//   .path('email')
-//   .validate({
-//     isAsync: true,
-//     validator: function(v, cb) {
-//       const self = this;
-//       self.constructor.findOne({ email:v }, function(err, user) {
-//         if (user && self.id !== user.id) {
-//           cb(false);
-//         }
-//         cb(true);
-//       });
-//     },
-//     message: '这个email已经被使用！'
-//   });
-
 /**
  * methods
  */
-// UserSchema.methods = {
-//   // 检查用户权限
-//   hasRole(role) {
-//     var selfRoles = this.role;
-//     return (selfRoles.indexOf('admin') !== -1 || selfRoles.indexOf(role) !== 1);
-//   },
-//   //验证用户密码
-// 	authenticate(plainText) {
-// 	  return this.encryptPassword(plainText) === this.hashedPassword;
-// 	},
-// 	//生成盐
-// 	makeSalt() {
-// 	  return crypto.randomBytes(16).toString('base64');
-// 	},
-// 	//生成密码
-// 	encryptPassword(password) {
-// 	  if (!password || !this.salt) return '';
-// 	  var salt = new Buffer(this.salt, 'base64');
-// 	  return crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha1').toString('base64');
-// 	}
-// };
+UserSchema.methods = {
+  // 检查用户权限
+  hasRole(role) {
+    var selfRoles = this.role;
+    return (selfRoles.indexOf('admin') !== -1 || selfRoles.indexOf(role) !== 1);
+  },
+  //验证用户密码
+	authenticate(plainText) {
+	  return this.encryptPassword(plainText) === this.hashedPassword;
+	},
+	//生成盐
+	makeSalt() {
+	  return crypto.randomBytes(16).toString('base64');
+	},
+	//生成密码
+	encryptPassword(password) {
+	  if (!password || !this.salt) return '';
+	  var salt = Buffer.from(this.salt, 'base64');
+	  return crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha1').toString('base64');
+	}
+};
 
 UserSchema.pre('save', (next) => {
   UserSchema.updateTime = new Date();
