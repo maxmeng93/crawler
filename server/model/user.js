@@ -16,7 +16,7 @@ const UserSchema = new Schema({
     unique: true,
     required: true
   },
-  // password: String,
+  password: String,
   email: {
     type: String,
     lowercase: true,
@@ -26,18 +26,18 @@ const UserSchema = new Schema({
     type: Number,
     unique: true
   },
-  hashedPassword: String,
+  // hashedPassword: String,
   avatar: String,
   authorization: String,
   status: {
     type: Number,
     default: 0
   },
-  // salt: String,
-  // role: {
-	// 	type : String ,
-	// 	default : 'user'
-	// },
+  salt: String,
+  role: {
+		type : String ,
+		default : 'user'
+	},
   createTime: {
     type: Date,
     default: Date.now
@@ -55,16 +55,16 @@ const UserSchema = new Schema({
 /**
  * virtuals
  */
-UserSchema
-  .virtual('password')
-  .set(function(password) {
-    this._password = password;
-    this.salt = this.makeSalt();
-    this.hashedPassword = this.encryptPassword(password);
-  })
-  .get(function() {
-    return this._password;
-  });
+// UserSchema
+//   .virtual('password')
+//   .set(function(password) {
+//     this._password = password;
+//     this.salt = this.makeSalt();
+//     this.hashedPassword = this.encryptPassword(password);
+//   })
+//   .get(function() {
+//     return this._password;
+//   });
 
 // UserSchema
 //   .virtual('userInfo')
