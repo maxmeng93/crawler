@@ -6,19 +6,34 @@ const config = require('../../config/server');
 module.exports = {
   // 注册新用户
   async addUser(ctx) {
-    const body = ctx.request.body;
+    const { username, password, repassword } = ctx.request.body;
+    if (!username) return ctx.body = '用户名不能为空';
+    if (!password) return ctx.body = '密码不能为空';
+    if (password !== repassword) return ctx.body = '两次输入密码不一致';
+
     let user = await User.findOne({
-      username: body.username
+      username: username
     }).exec();
 
     if (!user) {
-      user = new User(body);
+      user = new User({
+        username,
+        password
+      });
     }
 
     try {
       user = await user.save();
+      console.log(user);
       ctx.body = user;
     } catch (error) {}
+
+    // const userInfo = await User.findOne({ username }).exec();
+    // if (userInfo) return ctx.body = '用户名已经被注册了';
+
+    // const newUser = new User({ username, password });
+    // await newUser.save();
+    // ctx.body = '注册成功';
   },
 
   // 登录
@@ -46,7 +61,6 @@ module.exports = {
 
       user.authorization = authorization;
       user = await user.save();
-
       data = Object.assign(data, {
         data: user
       });

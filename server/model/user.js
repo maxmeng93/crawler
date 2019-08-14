@@ -9,31 +9,29 @@ const Schema = mongoose.Schema;
  * @type {mongoose}
  */
 const UserSchema = new Schema({
-  username: {
-    type: String,
-    unique: true
-  },
-  email: {
-    type: String,
-    lowercase: true,
-    unique: true
-  },
-  phone: {
-    type: Number,
-    unique: true
-  },
-  hashedPassword: String,
-  avatar: String,
-  authorization: String,
-  status: {
-    type: Number,
-    default: 0
-  },
-  salt: String,
-  role: {
-		type : String ,
-		default : 'user'
-	},
+  username: String,
+  password: String,
+  // email: {
+  //   type: String,
+  //   lowercase: true,
+  //   unique: true
+  // },
+  // phone: {
+  //   type: Number,
+  //   unique: true
+  // },
+  // hashedPassword: String,
+  // avatar: String,
+  // authorization: String,
+  // status: {
+  //   type: Number,
+  //   default: 0
+  // },
+  // salt: String,
+  // role: {
+	// 	type : String ,
+	// 	default : 'user'
+	// },
   createTime: {
     type: Date,
     default: Date.now
@@ -51,37 +49,37 @@ const UserSchema = new Schema({
 /**
  * virtuals
  */
-UserSchema
-  .virtual('password')
-  .set(function(password) {
-    this._password = password;
-    this.salt = this.makeSalt();
-    this.hashedPassword = this.encryptPassword(password);
-  })
-  .get(function() {
-    return this._password;
-  });
+// UserSchema
+//   .virtual('password')
+//   .set(function(password) {
+//     this._password = password;
+//     this.salt = this.makeSalt();
+//     this.hashedPassword = this.encryptPassword(password);
+//   })
+//   .get(function() {
+//     return this._password;
+//   });
 
-UserSchema
-  .virtual('userInfo')
-  .get(function() {
-    return {
-      username: this.username,
-      role: this.role,
-      email: this.email,
-      avatar: this.avatar,
-      phone: this.phone
-    }
-  });
+// UserSchema
+//   .virtual('userInfo')
+//   .get(function() {
+//     return {
+//       username: this.username,
+//       role: this.role,
+//       email: this.email,
+//       avatar: this.avatar,
+//       phone: this.phone
+//     }
+//   });
 
-UserSchema
-  .virtual('token')
-  .get(function() {
-    return {
-      '_id': this._id,
-      'role': this.role
-    }
-  });
+// UserSchema
+//   .virtual('token')
+//   .get(function() {
+//     return {
+//       '_id': this._id,
+//       'role': this.role
+//     }
+//   });
 
 // UserSchema
 //   .path('username')
@@ -99,19 +97,19 @@ UserSchema
 //     message: '这个用户名已经被使用！'
 //   });
 
-UserSchema
-  .path('username')
-  .validate({
-    validator: (v, cb) => {
-      const self = this;
-      return new Promise(function(resolve, reject) {
-        const user = self.constructor.findOne({ username: v});
-        if (user && self.id !== user.id) resolve(false);
-        resolve(true);
-      });
-    },
-    message: '这个用户名已经被使用！'
-  });
+// UserSchema
+//   .path('username')
+//   .validate({
+//     validator: (v, cb) => {
+//       const self = this;
+//       return new Promise(function(resolve, reject) {
+//         const user = self.constructor.findOne({ username: v});
+//         if (user && self.id !== user.id) resolve(false);
+//         resolve(true);
+//       });
+//     },
+//     message: '这个用户名已经被使用！'
+//   });
 
 // UserSchema
 //   .path('email')
@@ -132,27 +130,27 @@ UserSchema
 /**
  * methods
  */
-UserSchema.methods = {
-  // 检查用户权限
-  hasRole(role) {
-    var selfRoles = this.role;
-    return (selfRoles.indexOf('admin') !== -1 || selfRoles.indexOf(role) !== 1);
-  },
-  //验证用户密码
-	authenticate(plainText) {
-	  return this.encryptPassword(plainText) === this.hashedPassword;
-	},
-	//生成盐
-	makeSalt() {
-	  return crypto.randomBytes(16).toString('base64');
-	},
-	//生成密码
-	encryptPassword(password) {
-	  if (!password || !this.salt) return '';
-	  var salt = new Buffer(this.salt, 'base64');
-	  return crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha1').toString('base64');
-	}
-};
+// UserSchema.methods = {
+//   // 检查用户权限
+//   hasRole(role) {
+//     var selfRoles = this.role;
+//     return (selfRoles.indexOf('admin') !== -1 || selfRoles.indexOf(role) !== 1);
+//   },
+//   //验证用户密码
+// 	authenticate(plainText) {
+// 	  return this.encryptPassword(plainText) === this.hashedPassword;
+// 	},
+// 	//生成盐
+// 	makeSalt() {
+// 	  return crypto.randomBytes(16).toString('base64');
+// 	},
+// 	//生成密码
+// 	encryptPassword(password) {
+// 	  if (!password || !this.salt) return '';
+// 	  var salt = new Buffer(this.salt, 'base64');
+// 	  return crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha1').toString('base64');
+// 	}
+// };
 
 UserSchema.pre('save', (next) => {
   UserSchema.updateTime = new Date();
